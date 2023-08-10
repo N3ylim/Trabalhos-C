@@ -10,7 +10,7 @@ int main() {
     int numero_min = 1;
     int numero_max = 60;
 
-    srand(time(nullptr));
+    srand(time(0));
     cout << "Bem vindo ao Jogo de Loteria!" << endl;
     cout << "Escolha os numeros que deseja jogar" << endl;
 
