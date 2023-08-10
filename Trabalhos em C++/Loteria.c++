@@ -1,3 +1,6 @@
+
+// Neylor Henrique - Marco Vinycius
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -25,7 +28,7 @@ int main() {
 
                 // Verifica se a escolha está dentro dos limites e se não é repetida.
                 if (escolhas_usuario[i] < numero_min || escolhas_usuario[i] > numero_max) {
-                    cout << "Numero acima de 60. Tente novamente." << endl; // Exibe mensagem caso for acima de 60
+                    cout << "Coloque um numero acima de 0 e abaixo de 60." << endl; // Exibe mensagem caso for acima de 60
                 } else if (count(escolhas_usuario, escolhas_usuario + i, escolhas_usuario[i])) {
                     cout << "Numero repetido. Tente novamente." << endl; // Exibe mensagem caso for repetido
                 }
@@ -92,3 +95,4 @@ int main() {
 
     return 0;
 }
+
