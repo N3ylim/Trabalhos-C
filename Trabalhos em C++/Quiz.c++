@@ -39,6 +39,8 @@ int fazerPergunta(const Pergunta& pergunta) {
 int main() {
     srand(time(0));
 
+    cout << "Seja Bem-Vindo ao Quizz C/C++ Guru Quest! \n" << endl;
+    
     const int numPerguntas = 12;
     Pergunta perguntas[numPerguntas] = {
         {
