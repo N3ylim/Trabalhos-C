@@ -3,16 +3,20 @@
 #include <cstdlib>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
+// Estrutura para armazenar uma pergunta e suas opções
 struct Pergunta {
     string textoPergunta;
     string opcoes[4];
     int opcaoCorreta;
 };
 
+// Função para fazer uma pergunta ao usuário e obter sua escolha
 int fazerPergunta(const Pergunta& pergunta) {
+    // Exibe a pergunta e suas opções para o usuário
     cout << pergunta.textoPergunta << endl;
     for (int i = 0; i < 4; i++) {
         cout << i + 1 << ". " << pergunta.opcoes[i] << endl;
@@ -20,10 +24,12 @@ int fazerPergunta(const Pergunta& pergunta) {
 
     int escolhaUsuario;
     while (true) {
+        // Solicita a escolha do usuário
         cout << "\nEscolha a opção correta (1-4): ";
         cin >> escolhaUsuario;
 
-        if (cin.fail() || escolhaUsuario < 1 || escolhaUsuario > 4) {
+        // Verifica se a entrada é válida (apenas um caractere)
+        if (cin.fail() || cin.peek() != '\n' || escolhaUsuario < 1 || escolhaUsuario > 4) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Opção inválida. Digite um número entre 1 e 4." << endl;
@@ -36,12 +42,14 @@ int fazerPergunta(const Pergunta& pergunta) {
 }
 
 int main() {
+    // Inicialização do gerador de números aleatórios baseado no tempo atual
     srand(time(0));
 
     cout << "Seja Bem-Vindo ao Quizz C/C++ Guru Quest! \n" << endl;
     
+    // Número total de perguntas no quizz
     const int numPerguntas = 12;
-    Pergunta perguntas[numPerguntas] = {
+      Pergunta perguntas[numPerguntas] = {
         {
             "Qual utilidade da sigla &?",
             {"Mostrar o array", "Obter o endereço de uma variável", "Armazenar dados do arquivo", "Determinar que uma variável seja string"},
@@ -110,8 +118,11 @@ int main() {
         }
     };
 
-     const int numEquipes = 3;
+    // Número de equipes participantes
+    const int numEquipes = 3;
+    // Número máximo de perguntas que cada equipe deve responder
     const int maxPerguntasPorEquipe = 4;
+    // Pontuações iniciais de cada equipe
     int pontuacoes[numEquipes] = {0};
 
     int opcao;
@@ -119,6 +130,7 @@ int main() {
     do {
         cout << "===== Qual equipe irá responder? =====" << endl;
         cout << "Digite 1 para encerrar o programa" << endl;
+        // Exibe as opções de escolha de equipe para o usuário
         for (int i = 0; i < numEquipes; i++) {
             cout << "Digite " << i + 2 << " para Equipe " << i + 2 << endl;
         }
@@ -126,7 +138,8 @@ int main() {
 
         cout << "Digite sua opção: ";
     
-        while (!(cin >> opcao) || opcao < 1 || opcao > numEquipes + 1) {
+        // Verifica se a entrada é válida (apenas um caractere)
+        while (!(cin >> opcao) || cin.peek() != '\n' || opcao < 1 || opcao > numEquipes + 1) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Opção inválida. Digite novamente: ";
@@ -140,20 +153,24 @@ int main() {
             case 2:
             case 3:
             case 4: {
+                // Calcula o índice da equipe selecionada
                 int equipe = opcao - 2;
                 int numPerguntasRespondidas = 0;
                 vector<int> indicesPerguntasUsadas;
 
+                // Loop para fazer perguntas para a equipe atual
                 while (numPerguntasRespondidas < maxPerguntasPorEquipe) {
                     cout << "Equipe " << equipe + 2 << " está respondendo!\n" << endl;
 
                     int indicePergunta;
                     do {
+                        // Seleciona um índice aleatório que não foi usado antes
                         indicePergunta = rand() % numPerguntas;
                     } while (find(indicesPerguntasUsadas.begin(), indicesPerguntasUsadas.end(), indicePergunta) != indicesPerguntasUsadas.end());
 
                     indicesPerguntasUsadas.push_back(indicePergunta);
 
+                    // Chama a função para fazer a pergunta e obter a escolha do usuário
                     int escolhaUsuario = fazerPergunta(perguntas[indicePergunta]);
                     if (escolhaUsuario - 1 == perguntas[indicePergunta].opcaoCorreta) {
                         cout << "Resposta correta!\n" << endl;
@@ -165,6 +182,7 @@ int main() {
                     numPerguntasRespondidas++;
                 }
 
+                // Exibe a pontuação da equipe atual
                 cout << "Equipe " << equipe + 2 << " respondeu a " << numPerguntasRespondidas << " perguntas e acertou " << pontuacoes[equipe] << " questões." << endl;
                 cout << "Pontuação total da Equipe " << equipe + 2 << ": " << pontuacoes[equipe] << " pontos\n" << endl;
                 break;
@@ -175,7 +193,7 @@ int main() {
         }
     } while (opcao != 1);
 
-    cout << "\nPontuações Finais:" << endl;
+     cout << "\nPontuações Finais:" << endl;
     for (int equipe = 0; equipe < numEquipes; equipe++) {
         cout << "Equipe " << equipe + 2 << ": " << pontuacoes[equipe] << " pontos" << endl;
     }
@@ -192,6 +210,7 @@ int main() {
     for (int vencedora : equipesVencedoras) {
         cout << "Equipe " << vencedora << endl;
     }
+
 
     return 0;
 }
